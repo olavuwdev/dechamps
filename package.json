@@ -9,7 +9,7 @@
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "next": "13.1.6",
@@ -20,6 +20,7 @@
     "eslint": "9.39.2",
     "eslint-config-next": "16.1.6",
     "prettier": "^3.8.1",
-    "jest": "29.7.0"
+    "jest": "29.7.0",
+    "pg": "8.10.0"
   }
 }
