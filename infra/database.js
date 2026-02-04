@@ -7,9 +7,12 @@ async function query(objectQuery) {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
+    ssl: process.env.POSTGRES_SSLMODE === 'require' ? { rejectUnauthorized: false } : false,
+      // Disable channel binding if specified
+    channelBinding: process.env.PGCHANNELBINDING === 'disable' ? 'disable' : undefined
   });
-  await client.connect();
   try {
+    await client.connect();
     const res = await client.query(objectQuery);
     return res;
   } catch (erro) {
