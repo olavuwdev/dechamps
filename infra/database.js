@@ -1,6 +1,5 @@
 import { Client } from 'pg';
-import dns from 'dns';
-dns.setDefaultResultOrder('ipv4first');
+
 async function query(objectQuery) {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
