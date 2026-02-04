@@ -1,5 +1,6 @@
 import { Client } from 'pg';
-
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
 async function query(objectQuery) {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
@@ -7,7 +8,7 @@ async function query(objectQuery) {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-    ssl: process.env.POSTGRES_SSLMODE === 'require' ? { rejectUnauthorized: false } : false
+    ssl: getSSLValues(),
   });
   try {
     await client.connect();
@@ -24,3 +25,14 @@ const database = {
   query
 };
 export default database;
+
+function getSSLValues() {
+  if (process.env.POSTGRES_CA) {
+    return {
+      ca: process.env.POSTGRES_CA,
+    }
+  }
+  return {
+    rejectUnauthorized: false
+  };
+}
