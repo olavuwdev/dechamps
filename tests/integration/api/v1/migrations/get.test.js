@@ -1,5 +1,5 @@
 import database from "infra/database";
-beforeAll(cleanDatabase);
+beforeAll(cleanDatabase); //Antes de Tudo rode a função cleanDatabase para limpar o banco de dados
 
 async function cleanDatabase() {
   await database.query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
