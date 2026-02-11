@@ -3,8 +3,8 @@ import { Client } from 'pg';
 async function query(objectQuery) {
   let client;
 
+  client = await getNewClient();
   try {
-    client = await getNewClient();
     const res = await client.query(objectQuery);
     return res;
   } catch (erro) {
@@ -36,7 +36,7 @@ export default database;
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
     return {
-      ca: process.env.POSTGRES_CA,
+      rejectUnauthorized: false,
     }
   }
   return process.env.NODE_ENV === "production" ? true : false;
