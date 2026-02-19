@@ -4,37 +4,42 @@ import database from "infra/database";
 
 
 async function migrations(request, response) {
-
-  const dbClient = await database.getNewClient();
-
-  const defaultMigrations = {
-    dbClient: dbClient,
-    dryRun: true,
-    dir: join("infra", "migrations"),
-    direction: "up",
-    verbose: true,
-    migrationsTable: "pgmigrations",
+  const allowMethods = ["GET", "POST"];
+  if (!allowMethods.includes(request.method)) {
+    response.setHeader("Allow", allowMethods.join(", "));
+    return response.status(405).end(`Method ${request.method} Not Allowed`);
   }
+  let dbClient;
+  try {
+    dbClient = await database.getNewClient();
 
-  if (request.method === "GET") {
-    const pendingMigrations = await migrationRunner(defaultMigrations)
-
-    await dbClient.end();
-
-    return response.status(200).json(pendingMigrations);
-  }
-
-
-  if (request.method === "POST") {
-    const migratedMigrations = await migrationRunner({ ...defaultMigrations, dryRun: false })
-
-    await dbClient.end();
-
-    if (migratedMigrations.length > 0) {
-      return response.status(201).json(migratedMigrations);
+    const defaultMigrations = {
+      dbClient: dbClient,
+      dryRun: true,
+      dir: join("infra", "migrations"),
+      direction: "up",
+      verbose: true,
+      migrationsTable: "pgmigrations",
     }
-    return response.status(200).json(migratedMigrations);
+
+    if (request.method === "GET") {
+      const pendingMigrations = await migrationRunner(defaultMigrations)
+      return response.status(200).json(pendingMigrations);
+    }
+    if (request.method === "POST") {
+      const migratedMigrations = await migrationRunner({ ...defaultMigrations, dryRun: false })
+
+      if (migratedMigrations.length > 0) {
+        return response.status(201).json(migratedMigrations);
+      }
+      return response.status(200).json(migratedMigrations);
+    }
+  } catch (error) {
+    console.error("Error running migrations:", error);
+  } finally {
+    await dbClient.end();
   }
+
 
   return response.status(405).end();
 }
