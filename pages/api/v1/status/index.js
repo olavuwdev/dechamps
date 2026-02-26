@@ -1,5 +1,5 @@
 import database from "infra/database.js";
-
+//EndPoint: /api/v1/status
 async function status(request, response) {
   const updatedAt = new Date().toISOString();
 
