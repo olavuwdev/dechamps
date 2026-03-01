@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client } from "pg";
 
 async function query(objectQuery) {
   let client;
@@ -29,14 +29,14 @@ async function getNewClient() {
 
 const database = {
   query,
-  getNewClient
+  getNewClient,
 };
 export default database;
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
     return {
       rejectUnauthorized: false,
-    }
+    };
   }
   return process.env.NODE_ENV === "production" ? true : false;
 }

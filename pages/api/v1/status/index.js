@@ -8,17 +8,19 @@ async function status(request, response) {
   const databaseVersion = await database.query("SHOW server_version;");
   const databaseVersionValue = databaseVersion.rows[0].server_version;
 
-  const databaseMaxConnectionResult = await database.query("SHOW max_connections;");
-  const databaseMaxConnectionsValue = databaseMaxConnectionResult.rows[0].max_connections
+  const databaseMaxConnectionResult = await database.query(
+    "SHOW max_connections;",
+  );
+  const databaseMaxConnectionsValue =
+    databaseMaxConnectionResult.rows[0].max_connections;
 
-  const databaseOpennedConnections =
-    await database.query({
-      text: "SELECT count(*)::int FROM pg_stat_activity where datname = $1;",
-      values: [databaseName]
-    });
-  const databaseOpennedConnectionsValue = databaseOpennedConnections.rows[0].count;
-  console.log(databaseOpennedConnectionsValue)
-
+  const databaseOpennedConnections = await database.query({
+    text: "SELECT count(*)::int FROM pg_stat_activity where datname = $1;",
+    values: [databaseName],
+  });
+  const databaseOpennedConnectionsValue =
+    databaseOpennedConnections.rows[0].count;
+  console.log(databaseOpennedConnectionsValue);
 
   response.status(200).json({
     updated_at: updatedAt,
@@ -26,9 +28,9 @@ async function status(request, response) {
       database: {
         version: databaseVersionValue,
         max_connections: parseInt(databaseMaxConnectionsValue),
-        oppened_connections: parseInt(databaseOpennedConnectionsValue)
-      }
-    }
+        oppened_connections: parseInt(databaseOpennedConnectionsValue),
+      },
+    },
   });
 }
 

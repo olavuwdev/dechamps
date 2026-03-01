@@ -2,7 +2,7 @@ import orchestractor from "tests/orchestractor";
 
 beforeAll(async () => {
   await orchestractor.waitForAllProcess();
-})
+});
 
 test("Get to api/v1/status should return 200", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
@@ -15,10 +15,9 @@ test("Get to api/v1/status should return 200", async () => {
   expect(responseBody.updated_at).toEqual(parsedUpdatedAt);
 
   expect(responseBody.dependencies.database.max_connections).toEqual(60);
-  console.log(responseBody)
-  expect(responseBody.dependencies.database.oppened_connections).toEqual(1)
-})
-
+  console.log(responseBody);
+  expect(responseBody.dependencies.database.oppened_connections).toEqual(1);
+});
 
 test.only("Get to api/v1/status should return 200", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
@@ -31,6 +30,5 @@ test.only("Get to api/v1/status should return 200", async () => {
   expect(responseBody.updated_at).toEqual(parsedUpdatedAt);
 
   expect(responseBody.dependencies.database.max_connections).toEqual(100);
-  expect(responseBody.dependencies.database.oppened_connections).toEqual(1)
-
-})
+  expect(responseBody.dependencies.database.oppened_connections).toEqual(1);
+});
