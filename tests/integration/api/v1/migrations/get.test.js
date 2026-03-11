@@ -4,7 +4,6 @@ beforeAll(async () => {
   await orchestractor.cleanDatabaseProcess();
 }); //Antes de Tudo rode a função cleanDatabase para limpar o banco de dados
 
-
 describe("GET '/api/v1/migrations'", () => {
   describe("Anonymous user", () => {
     test("Retriving pending migrations", async () => {
