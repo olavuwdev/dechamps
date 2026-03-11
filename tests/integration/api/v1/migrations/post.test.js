@@ -1,13 +1,13 @@
 import orchestractor from "tests/orchestractor";
 beforeAll(async () => {
   await orchestractor.waitForAllProcess();
-  await orchestractor.cleanDatabaseProcess()
+  await orchestractor.cleanDatabaseProcess();
 });
 
-describe("POST '/api/v1/migrations' ", () => {
+describe("POST '/api/v1/migrations'", () => {
   describe("Anonymous user", () => {
     describe("Runnnig pending migrations", () => {
-      test("For the first time: ", async () => {
+      test("For the first time:", async () => {
         const response1 = await fetch(
           "http://localhost:3000/api/v1/migrations",
           {
@@ -24,10 +24,10 @@ describe("POST '/api/v1/migrations' ", () => {
   });
 });
 
-describe("POST '/api/v1/migrations' ", () => {
+describe("POST /api/v1/migrations", () => {
   describe("Anonymous user", () => {
     describe("Runnnig pending migrations", () => {
-      test("For the secound time: ", async () => {
+      test("For the secound time:", async () => {
         const response2 = await fetch(
           "http://localhost:3000/api/v1/migrations",
           {

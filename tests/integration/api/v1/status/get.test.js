@@ -3,7 +3,7 @@ import orchestractor from "tests/orchestractor";
 beforeAll(async () => {
   await orchestractor.waitForAllProcess();
 });
-describe("GET '/api/v1/status' ", () => {
+describe("GET '/api/v1/status'", () => {
   describe("Anonymous user", () => {
     test("Retrieving current system status", async () => {
       const response = await fetch("http://localhost:3000/api/v1/status");
@@ -18,5 +18,5 @@ describe("GET '/api/v1/status' ", () => {
       expect(responseBody.dependencies.database.max_connections).toEqual(100);
       expect(responseBody.dependencies.database.oppened_connections).toEqual(1);
     });
-});
+  });
 });

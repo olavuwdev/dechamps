@@ -18,12 +18,12 @@ async function waitForAllProcess() {
   }
 }
 
-async function cleanDatabaseProcess(){
+async function cleanDatabaseProcess() {
   await database.query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
 }
 const orchestractor = {
   waitForAllProcess,
-  cleanDatabaseProcess
+  cleanDatabaseProcess,
 };
 
 export default orchestractor;
