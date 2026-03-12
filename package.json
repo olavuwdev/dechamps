@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev",
-    "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand --verbose\"",
+    "test": "npm run services:up && concurrently --n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand\" --verbose",
     "posttest": "npm run services:down",
     "test:watch": "jest --watchAll --runInBand --verbose",
     "services:up": "docker compose -f infra/compose.yaml up -d",
@@ -34,7 +34,7 @@
     "@commitlint/cli": "20.4.3",
     "@commitlint/config-conventional": "20.4.3",
     "commitizen": "4.3.1",
-    "concurrently": "9.2.1",
+    "concurrently": "^9.2.1",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.5",
