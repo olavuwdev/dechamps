@@ -1,58 +1,56 @@
 import useSWR from "swr";
 
-async function fetchAPI(key){
+async function fetchAPI(key) {
   const response = await fetch(key);
   const responseBody = response.json();
   return responseBody;
-
 }
 
-export default function StatusPage(){
-  return(
+export default function StatusPage() {
+  return (
     <>
       <h1>Status Page</h1>
-      <UpdatedAt/>
-      <DatabaseStatus/>
+      <UpdatedAt />
+      <DatabaseStatus />
     </>
   );
 }
-function UpdatedAt(){
-  const {isLoading, data} = useSWR("/api/v1/status", fetchAPI,{
-    refreshInterval:1000
+function UpdatedAt() {
+  const { isLoading, data } = useSWR("/api/v1/status", fetchAPI, {
+    refreshInterval: 1000,
   });
   let updatedAtText = "Carregando";
-  if(!isLoading && data){
-    updatedAtText = new Date(data.updated_at).toLocaleString("pt-BR")
+  if (!isLoading && data) {
+    updatedAtText = new Date(data.updated_at).toLocaleString("pt-BR");
   }
-  return(
+  return (
     <>
-    <pre>
-      Ultima atualização: {updatedAtText}
-    </pre>
+      <pre>Ultima atualização: {updatedAtText}</pre>
     </>
-  )
-
+  );
 }
-function DatabaseStatus(){
-  const {isLoading, data} = useSWR("/api/v1/status", fetchAPI,{
-    refreshInterval:1000
+function DatabaseStatus() {
+  const { isLoading, data } = useSWR("/api/v1/status", fetchAPI, {
+    refreshInterval: 1000,
   });
   let databaseStatusInformation = "Carregando";
-  if(!isLoading && data){
-
+  if (!isLoading && data) {
     databaseStatusInformation = (
-       <>
-       <div>Versão: {data.dependencies.database.version}</div>
-       <div>Conexões abertas: {data.dependencies.database.oppened_connections}</div>
-       <div>Maximo de Conexões: {data.dependencies.database.max_connections}</div>
+      <>
+        <div>Versão: {data.dependencies.database.version}</div>
+        <div>
+          Conexões abertas: {data.dependencies.database.oppened_connections}
+        </div>
+        <div>
+          Maximo de Conexões: {data.dependencies.database.max_connections}
+        </div>
       </>
-    )
+    );
   }
-  return(
+  return (
     <>
-    <h1>Database</h1>
-    {databaseStatusInformation}
+      <h1>Database</h1>
+      {databaseStatusInformation}
     </>
-  )
-
+  );
 }
