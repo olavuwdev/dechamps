@@ -26,6 +26,7 @@ function salvarUsuario(input) {
 try {
   salvarUsuario({
     name: "Olavo Adriel",
+
   });
 } catch (error) {
   if (error instanceof ReferenceError) {
