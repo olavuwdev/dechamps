@@ -1,9 +1,9 @@
 import database from "infra/database.js";
-import {InternalServerError} from "infra/erros"
+import { InternalServerError } from "infra/erros";
 
 //EndPoint: /api/v1/status
 async function status(request, response) {
-  try{
+  try {
     const updatedAt = new Date().toISOString();
 
     const databaseName = process.env.POSTGRES_DB;
@@ -35,14 +35,14 @@ async function status(request, response) {
         },
       },
     });
-  }catch(error){
+  } catch (error) {
     const publicErrorObject = new InternalServerError({
       cause: error,
     });
     console.log("Erro dentro do catch do controller: ");
     console.error(publicErrorObject);
 
-    response.status(500).json(publicErrorObject)
+    response.status(500).json(publicErrorObject);
   }
 }
 

@@ -7,9 +7,9 @@ async function query(objectQuery) {
     client = await getNewClient();
     const res = await client.query(objectQuery);
     return res;
-  } catch (erro) {
-    console.log("Erro ao conectar no database.js:")
-    console.error(erro);
+  } catch (error) {
+    console.log("Erro ao conectar no database.js:");
+    console.error(error);
     throw error;
   } finally {
     await client?.end();

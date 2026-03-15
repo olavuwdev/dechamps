@@ -6,7 +6,6 @@ class ValitationError extends Error {
 }
 
 function salvarUsuario(input) {
-
   if (!input) {
     throw new ReferenceError("é necessário fornecer um objeto de entrada.");
   }
@@ -19,22 +18,17 @@ function salvarUsuario(input) {
   if (!input.age) {
     throw new ValitationError("Preencha o campo de idade.");
   }
-
-  user.save(input);
-
 }
 try {
   salvarUsuario({
     name: "Olavo Adriel",
-
   });
 } catch (error) {
   if (error instanceof ReferenceError) {
     throw error;
   }
   if (error instanceof ValitationError) {
-    console.log(error);
-    return; // response.status(400).json({ error: error.message });
+    throw error;
   }
   console.error("Ocorreu um erro ao salvar o usuário:");
   console.error(error);
