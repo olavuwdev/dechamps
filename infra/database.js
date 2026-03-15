@@ -3,14 +3,16 @@ import { Client } from "pg";
 async function query(objectQuery) {
   let client;
 
-  client = await getNewClient();
   try {
+    client = await getNewClient();
     const res = await client.query(objectQuery);
     return res;
   } catch (erro) {
-    console.error("Database query error:", erro);
+    console.log("Erro ao conectar no database.js:")
+    console.error(erro);
+    throw error;
   } finally {
-    await client.end();
+    await client?.end();
   }
 }
 
