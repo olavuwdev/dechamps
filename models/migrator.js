@@ -2,8 +2,6 @@ import migrationRunner from "node-pg-migrate";
 import { join } from "node:path";
 import database from "infra/database";
 
-
-
 const defaultMigrations = {
   dryRun: true,
   dir: join("infra", "migrations"),
@@ -43,7 +41,7 @@ async function runPendingMigrations() {
 
 const migrator = {
   listPendingMigrations,
-  runPendingMigrations
-}
+  runPendingMigrations,
+};
 
 export default migrator;
