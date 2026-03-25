@@ -23,13 +23,13 @@ async function cleanDatabaseProcess() {
   await database.query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
 }
 
-async function runPendingMigrations(){
-  await migrator.runPendingMigrations()
+async function runPendingMigrations() {
+  await migrator.runPendingMigrations();
 }
 const orchestractor = {
   waitForAllProcess,
   cleanDatabaseProcess,
-  runPendingMigrations
+  runPendingMigrations,
 };
 
 export default orchestractor;
