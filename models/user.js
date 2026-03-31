@@ -28,13 +28,13 @@ async function create(userInputValues) {
 
 async function update(username, userInputValues) {
   const currentUser = await findOneByUsername(username);
-  if("username" in userInputValues) {
+  if ("username" in userInputValues) {
     await validationUniqueUsername(userInputValues.username);
   }
-  if("email" in userInputValues) {
+  if ("email" in userInputValues) {
     await validationUniqueEmail(userInputValues.email);
   }
-  if("password" in userInputValues){
+  if ("password" in userInputValues) {
     await hashPasswordInObject(userInputValues);
   }
   const userWithNewValues = {
@@ -56,11 +56,15 @@ async function update(username, userInputValues) {
         WHERE id = $1
         RETURNING *;
       `,
-      values:[userWithNewValues.id, userWithNewValues.username, userWithNewValues.email, userWithNewValues.password]
+      values: [
+        userWithNewValues.id,
+        userWithNewValues.username,
+        userWithNewValues.email,
+        userWithNewValues.password,
+      ],
     });
     return response.rows[0];
   }
-
 }
 
 async function findOneByUsername(username) {
@@ -126,12 +130,10 @@ async function hashPasswordInObject(userInputValues) {
   userInputValues.password = hashedPassword;
 }
 
-
-
 const user = {
   create,
   findOneByUsername,
-  update
+  update,
 };
 
 export default user;
