@@ -17,11 +17,6 @@ describe("GET '/api/v1/users/[username]'", () => {
         email: "ollavoadriel@curso",
         password: "senha123",
       });
-      /* 
-      username: "MesmoCase",
-      email: "ollavoadriel@curso",
-      password: "senha123",
-      */
       
       const response2 = await fetch(
         "http://localhost:3000/api/v1/users/MesmoCase",
@@ -42,18 +37,13 @@ describe("GET '/api/v1/users/[username]'", () => {
       expect(Date.parse(responseBody2.updated_at)).not.toBeNaN();
     });
     test("With exact case mismatch:", async () => {
-      const response1 = await fetch("http://localhost:3000/api/v1/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "CaseDiferente",
-          email: "case.diferente@curso",
-          password: "senha123",
-        }),
+      
+      await orchestractor.createUser({
+        username: "CaseDiferente",
+        email: "case.diferente@curso",
+        password: "senha123",
       });
-      expect(response1.status).toBe(201);
+      
       const response2 = await fetch(
         "http://localhost:3000/api/v1/users/caseDiferente",
       );
