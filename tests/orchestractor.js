@@ -1,6 +1,7 @@
 import retry from "async-retry";
-import database from "infra/database";
-import migrator from "models/migrator";
+import database from "infra/database.js";
+import migrator from "models/migrator.js";
+import user from "models/user.js";
 
 async function waitForAllProcess() {
   await waitForWebServer();
@@ -23,6 +24,11 @@ async function cleanDatabaseProcess() {
   await database.query("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
 }
 
+async function createUser(objectUser){
+  const newUser = await user.create(objectUser);
+  return newUser;
+}
+
 async function runPendingMigrations() {
   await migrator.runPendingMigrations();
 }
@@ -30,6 +36,7 @@ const orchestractor = {
   waitForAllProcess,
   cleanDatabaseProcess,
   runPendingMigrations,
+  createUser
 };
 
 export default orchestractor;
