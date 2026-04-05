@@ -10,14 +10,12 @@ beforeAll(async () => {
 describe("GET '/api/v1/users/[username]'", () => {
   describe("Anonymous user", () => {
     test("With exact case match:", async () => {
-      
-
       await orchestractor.createUser({
         username: "MesmoCase",
         email: "ollavoadriel@curso",
         password: "senha123",
       });
-      
+
       const response2 = await fetch(
         "http://localhost:3000/api/v1/users/MesmoCase",
       );
@@ -37,13 +35,12 @@ describe("GET '/api/v1/users/[username]'", () => {
       expect(Date.parse(responseBody2.updated_at)).not.toBeNaN();
     });
     test("With exact case mismatch:", async () => {
-      
       await orchestractor.createUser({
         username: "CaseDiferente",
         email: "case.diferente@curso",
         password: "senha123",
       });
-      
+
       const response2 = await fetch(
         "http://localhost:3000/api/v1/users/caseDiferente",
       );
