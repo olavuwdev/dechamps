@@ -1,4 +1,5 @@
 import user from "models/user.js";
+
 import password from "models/password.js";
 import { UnauthorizedError, NotFoundError } from "infra/erros.js";
 

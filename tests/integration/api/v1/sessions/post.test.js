@@ -1,7 +1,6 @@
 import { version as uuidVersion } from "uuid";
 import orchestractor from "tests/orchestractor";
-import password from "models/password";
-import user from "models/user";
+import session from "models/session.js";
 
 beforeAll(async () => {
   await orchestractor.waitForAllProcess();
@@ -85,7 +84,7 @@ describe("POST '/api/v1/sessions'", () => {
       });
     });
     test("With correct email and correct password:", async () => {
-      await orchestractor.createUser({
+      const createdUser = await orchestractor.createUser({
         email: "emailcorreto@curso.com",
         password: "senhaCorreta",
       });
@@ -103,7 +102,28 @@ describe("POST '/api/v1/sessions'", () => {
       expect(response.status).toBe(201);
 
       const responseBody = await response.json();
-      expect(responseBody).toEqual({});
+      expect(responseBody).toEqual({
+        id: responseBody.id,
+        user_id: createdUser.id,
+        token: responseBody.token,
+        expires_at: responseBody.expires_at,
+        created_at: responseBody.created_at,
+        updated_at: responseBody.updated_at,
+      });
+
+      expect(uuidVersion(responseBody.id)).toBe(4);
+      expect(Date.parse(responseBody.created_at)).not.toBeNaN();
+      expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
+
+      const expiresAtaTime = new Date(responseBody.expires_at);
+      const createAtaTime = new Date(responseBody.created_at);
+
+      expiresAtaTime.setMilliseconds(0);
+      createAtaTime.setMilliseconds(0);
+
+      expect(expiresAtaTime - createAtaTime).toBe(session.EXPIRATION_IN_MILLISECONDS);
+
+
     });
   });
 });
