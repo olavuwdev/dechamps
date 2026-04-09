@@ -61,9 +61,8 @@ describe("POST '/api/v1/sessions'", () => {
         status_code: 401,
       });
     });
-    test("With incorrect email but incorrect password:", async () => {
-      await orchestractor.createUser({
-      });
+    test("With incorrect email and incorrect password:", async () => {
+      await orchestractor.createUser({});
 
       const response = await fetch("http://localhost:3000/api/v1/sessions", {
         method: "POST",
@@ -84,6 +83,27 @@ describe("POST '/api/v1/sessions'", () => {
         action: "Verifique se o email e senha digitados estão corretos.",
         status_code: 401,
       });
+    });
+    test("With correct email and correct password:", async () => {
+      await orchestractor.createUser({
+        email: "emailcorreto@curso.com",
+        password: "senhaCorreta",
+      });
+
+      const response = await fetch("http://localhost:3000/api/v1/sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: "emailcorreto@curso.com",
+          password: "senhaCorreta",
+        }),
+      });
+      expect(response.status).toBe(201);
+
+      const responseBody = await response.json();
+      expect(responseBody).toEqual({});
     });
   });
 });
