@@ -1,6 +1,3 @@
-const { default: user } = require("models/user");
-const { unique } = require("next/dist/build/utils");
-
 exports.up = (pgm) => {
   pgm.createTable("session", {
     id: {
@@ -8,12 +5,12 @@ exports.up = (pgm) => {
       primaryKey: true,
       default: pgm.func("gen_random_uuid()"),
     },
-    token:{
+    token: {
       type: "varchar(96)",
       notNull: true,
-      unique: true
+      unique: true,
     },
-    user_id:{
+    user_id: {
       type: "uuid",
       notNull: true,
     },
