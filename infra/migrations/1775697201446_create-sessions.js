@@ -1,34 +1,33 @@
 exports.up = (pgm) => {
-  pgm.createTable("users", {
+  pgm.createTable("session", {
     id: {
       type: "uuid",
       primaryKey: true,
       default: pgm.func("gen_random_uuid()"),
     },
-    //Why lentgh 30?
-    username: {
-      type: "varchar(30)",
+    token: {
+      type: "varchar(96)",
       notNull: true,
       unique: true,
     },
-    email: {
-      type: "varchar(254)",
+    user_id: {
+      type: "uuid",
       notNull: true,
-      unique: true,
     },
-    password: {
-      type: "varchar(90)",
-      notNull: true,
+    expires_at: {
+      type: "timestamptz",
     },
     created_at: {
       type: "timestamptz",
+      notNull: true,
       default: pgm.func("now()"),
     },
     updated_at: {
       type: "timestamptz",
+      notNull: true,
       default: pgm.func("now()"),
     },
-  }, {ifNotExists: true});
+  });
 };
 
 exports.down = false;
