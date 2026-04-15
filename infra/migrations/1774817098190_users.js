@@ -28,7 +28,7 @@ exports.up = (pgm) => {
       type: "timestamptz",
       default: pgm.func("now()"),
     },
-  });
+  }, {ifNotExists: true});
 };
 
 exports.down = false;
