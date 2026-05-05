@@ -2,6 +2,7 @@ import retry from "async-retry";
 import database from "infra/database.js";
 import migrator from "models/migrator.js";
 import user from "models/user.js";
+import session from "models/session.js";
 import { faker } from "@faker-js/faker";
 
 async function waitForAllProcess() {
@@ -35,6 +36,10 @@ async function createUser(objectUser) {
   return newUser;
 }
 
+async function createSession(userId) {
+  return await session.create(userId);
+}
+
 async function runPendingMigrations() {
   await migrator.runPendingMigrations();
 }
@@ -43,6 +48,7 @@ const orchestractor = {
   cleanDatabaseProcess,
   runPendingMigrations,
   createUser,
+  createSession,
 };
 
 export default orchestractor;

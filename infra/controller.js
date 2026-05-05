@@ -5,6 +5,10 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "infra/erros.js";
+import session from "models/session.js";
+import * as cookie from "cookie";
+
+
 function onErrorHandler(error, request, response) {
   if (
     error instanceof ValidationError ||
@@ -30,8 +34,20 @@ function onNoMatchHandler(request, response) {
     .json(publicErrorObject)
     .end();
 }
+
+async function setSessionCookie(sessionToken, response) {
+  const setCookie = cookie.serialize("session_id", sessionToken, {
+    path: "/",
+    maxAge: session.EXPIRATION_IN_MILLISECONDS / 1000,
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
+  response.setHeader("Set-Cookie", setCookie);
+}
+
 const controller = {
   onNoMatchHandler,
   onErrorHandler,
+  setSessionCookie,
 };
 export default controller;
